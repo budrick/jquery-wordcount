@@ -8,32 +8,39 @@
       init : function( options ) { 
         var settings = {
           'limit': 0,
-          'showLimit': false
+          'showLimit': false,
+          'displayClass': 'jq-wordcount-display',
+          'class': 'jq-wordcount'
         };
         $.extend(settings, options);
 
         return this.each(function() {
-            var el = $('<span class="jq-wordcount"></span>');
+            var el = $('<span class="' + settings.displayClass + '"></span>');
             $(this).after(el);
+            $(this).addClass(settings.class);
             $(this).bind('keypress.wordcount', function() {
+                console.debug('adf');
                 
                 $(el).html(
-                  $(this).wordcount('update').wordcount('get') + 
-                    (settings.limit?(" / " + settings.limit):"")
+                  $(this).wordcount('get') + 
+                    (settings.limit && settings.showLimit?(" / " + settings.limit):"")
                 ); 
-                if (settings.limit && $(this).wordcount('update').wordcount('get') > settings.limit) {
+
+                if (settings.limit && $(this).wordcount('get') > settings.limit) {
                   return false;
                 }
 
               });
+            $(this).trigger('keypress');
           });
       },
       get: function() {
+        $(this).wordcount('update');
         return $(this).data('wordcount');
       },
       update: function() {
         return this.each(function() {
-            $(this).data('wordcount', $(this).val().split(/\W+/).length);
+            $(this).data('wordcount', $.grep($(this).val().split(/\W+/), function (n, i) { return n.length; }).length);
           });
       }
     };
