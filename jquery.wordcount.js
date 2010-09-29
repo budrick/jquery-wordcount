@@ -19,7 +19,6 @@
             $(this).after(el);
             $(this).addClass(settings.class);
             $(this).bind('keypress.wordcount', function() {
-                console.debug('adf');
                 
                 $(el).html(
                   $(this).wordcount('get') + 
