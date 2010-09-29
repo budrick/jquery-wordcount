@@ -15,7 +15,7 @@
         $.extend(settings, options);
 
         return this.each(function() {
-            var el = $('<span class="' + settings.displayClass + '"></span>');
+            var el = $('<div class="' + settings.displayClass + '"></div>');
             $(this).after(el);
             $(this).addClass(settings.class);
             $(this).bind('keypress.wordcount', function() {
